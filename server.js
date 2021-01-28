@@ -5,6 +5,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const mongoAtlasUriUsers = "mongodb+srv://admin:admin@cluster0.cvkwf.mongodb.net/users?retryWrites=true&w=majority";
+
+
+
 //instantiate express server
 const app = express();
 
@@ -17,13 +21,50 @@ let corsOptions = {
 app.use(cors(corsOptions));
 
 //parse json
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 //parse urlenconded, POST requests
 app.use(bodyParser.urlencoded({extended:true}));
+
+//db constants
+const db = require("./app/models");
+const User = db.user;
+
+db.mongoose.connect(
+    mongoAtlasUriUsers,
+    { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(()=>{
+        console.log("Successfully connect to Mongo Atlas via Mongoose");
+        initial();
+    })
+    .catch((err)=>{
+        console.log("Connection error: " + err);
+        process.exit();
+    });
+
+
+//default route
+app.get("/", (req,res)=>{
+    console.log("get received");
+    res.json({message: 'Application running'});
+});
 
 //run server on localhost
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>{
     console.log(`>>> Server is running on port ${PORT}.`)
 });
+
+//insert some dummy data
+function initial (){
+    let newUser = User({
+        username: 'joe',
+        email: 'joe@johnas',
+        password: 'joe'
+    }).save( err =>{
+        if (err) {
+            console.log("Saving error: " + err);
+        }
+        console.log('Added dummy user to database');
+    });
+}
