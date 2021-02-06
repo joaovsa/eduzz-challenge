@@ -49,6 +49,10 @@ app.get("/", (req,res)=>{
     res.json({message: 'Application running'});
 });
 
+//routes
+require("./app/routes/auth.routes")(app);
+require("./app/routes/user.routes")(app);
+
 //run server on localhost
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>{
