@@ -60,7 +60,7 @@ app.listen(PORT, ()=>{
 });
 
 //insert some dummy data
-function initial (){
+/*function initial (){
     let newUser = User({
         username: 'joe',
         email: 'joe@johnas',
@@ -71,4 +71,4 @@ function initial (){
         }
         console.log('Added dummy user to database');
     });
-}
+}*/
