@@ -8,7 +8,8 @@ let User = mongoose.model(
         username: String,
         email: String,
         password: String
-    })
+    }),
+    "users"
 );
 
 module.exports = User;
