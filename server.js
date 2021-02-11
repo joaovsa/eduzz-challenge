@@ -35,7 +35,7 @@ db.mongoose.connect(
     { useNewUrlParser: true, useUnifiedTopology: true })
     .then(()=>{
         console.log("Successfully connect to Mongo Atlas via Mongoose");
-        initial();
+        //initial();
     })
     .catch((err)=>{
         console.log("Connection error: " + err);
