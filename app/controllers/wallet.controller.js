@@ -56,22 +56,24 @@ exports.addBrlBalance = (req, res)=>{
                 return res.status(400).send({message:"Wallet not found"});
             }
             console.log("User HAS wallet")
-            
-            //O(n²), but currencies arr will never too large to cause any performance issue
-            wallet.currencies.forEach(element => {
-                
-                if(element.currency === "BRL"){
+                        
+            wallet.currencies.forEach(element => {                
+                switch(element.currency){
                     
-                    //iterates req currencies array 
-                    let new_balance = 0
-                    req.body.currencies.forEach(obj=>{
-                        if(obj.currency === "BRL"){
-                            new_balance = obj.balance;
-                        }
-                    });
+                    case("BRL"):
+                        //O(n²) loop, but currencies arr will never too large to cause any performance issue
+                        let new_balance = 0
+                        req.body.currencies.forEach(obj=>{
+                            if(obj.currency === "BRL"){
+                                new_balance = obj.balance;
+                            }
+                        });
 
-                    //adds new balance to current wallet
-                    element.balance += new_balance
+                        //adds new balance to current wallet
+                        element.balance += new_balance
+                        break;
+                    default:
+                        res.status(400).send({message:"Currency not allowed"});
                 }
             });
 
@@ -92,5 +94,22 @@ exports.addBrlBalance = (req, res)=>{
 };
 
 exports.getWallet = (req, res)=>{
-    
+    try{
+        console.log("Finding wallet");
+        Wallet.findOne({
+            username: req.body.username
+        })
+        .exec((err, wallet)=>{            
+            console.log("Wallet search ended")
+            if(err) {
+                res.status(500).send({message:"Uh-oh" + err});
+            }
+            if (!wallet){
+                return res.status(400).send({message:"Wallet not found"});
+            }
+            return res.json(wallet);
+        });
+    } catch(err){
+        return res.status(500).send({message:"Somethin went wrong: " + err});
+    }
 };
