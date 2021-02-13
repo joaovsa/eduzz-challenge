@@ -9,6 +9,7 @@ const db = {};
 
 db.mongoose = mongoose;
 db.user = require("./user.model");
+db.wallet = require("./wallet.model")
 
 
 module.exports = db;

@@ -52,6 +52,7 @@ app.get("/", (req,res)=>{
 //routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/wallet.routes")(app);
 
 //run server on localhost
 const PORT = process.env.PORT || 8080;
