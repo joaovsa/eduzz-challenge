@@ -5,7 +5,8 @@ The purpose of this code is to create a scenario to show coding abilities, as re
 
 ## About:
 ### The Architecture
-The app was made in NodeJS with Express framework. The database chosen was MongoDB via Atlas, which means is running on the cloud right now to simplify the project structure. In order to reach for MongoDB, the app leans on Mongoose (which is nice since it validates data according to the model before actually saving it). 
+The app was made in NodeJS with Express framework. The database chosen was MongoDB via Atlas, which means is running on the cloud right now to simplify the project 
+ure. In order to reach for MongoDB, the app leans on Mongoose (which is nice since it validates data according to the model before actually saving it). 
 
 The app was designed respecting the MVC pattern and correct HTTP methods. You can see some middlewares too as they serve as a way to keep the controllers clean.
 Mocha + Chai were used to test the application, and testdouble to mock DB calls.
@@ -47,7 +48,7 @@ For the bellow steps, we will use Postman. But you can use anything that helps y
 
 In the example screenshots, I assume that you correctly followed the docker steps above and mapped your 8080 port to 49160.
 
-#### Check the running server
+### Check the running server
 
 ![get test](./readme_imgs/test_call.png?raw=true "get test")
 
@@ -58,7 +59,7 @@ Make a GET request via Post to the root URL, just do make sure
 ```
 You should receive the message as the image shows.
 
-#### Sign Up
+### Sign Up
 
 Before use the application, you must have an user. To do so, make a POST request to 
 
@@ -84,7 +85,7 @@ If the desired username or password are already in use, you won't be able to pro
 
 ![email_in_use](./readme_imgs/user_created.png?raw=true "email_in_use")
 
-#### Sign In
+### Sign In
 
 Now that you've created your user, we can continue. As you signin, you will receive your JWT token, with which you may call other API endpoints.
 Send a POST request, with your username and password to: 
@@ -104,7 +105,7 @@ For now on, we will need the JWT token: copy and paste the 'acessToken' string t
 
 This is the JWT token in action that we are preparing for further API requests. Keep in mind that the token expires after a certain while.
 
-#### Create your wallet
+### Create your wallet
 
 When you created your user, the API did not create the wallet with all the currencies. This behavior is meant to keep the database clean of 'unactivated users'. Of course, this is a future increment of the API, counting on a 'activate your user' e-mail. So as soon as the user had their e-mail confirmed, we would create a wallet. 
 
@@ -113,7 +114,7 @@ As the current implementation goes, you have to create a wallet manually.
 Simply make a POST request to
 
 ```markdown
-    http://localhost:49160/api/auth/signin
+    http://localhost:49160/api/wallet/create
 ``` 
 
 And your JSON body should look like this:
@@ -132,19 +133,37 @@ And your JSON body should look like this:
 }
 ``` 
 
-In the currencies array, you can add any currencies you want when you create your wallet. But, at the moment, the API will only accept deposits in BRL. The array struct was made for code reusing purpose. In the future, maybe there will be a necessity of adding USD balance, or even add Cryptocurrencies to your wallet via transference from someone else.
+In the currencies array, you can add any currencies you want when you create your wallet. But, at the moment, the API will only accept deposits in BRL. This array structure was made for code reusing purpose. In the future, maybe there will be a necessity of adding USD balance, or even add Cryptocurrencies to your wallet via transference from someone else.
 
 
 ![wallet_created](./readme_imgs/wallet_created.png?raw=true "wallet_created")
 
 
 
-If your JWT was not set correctly or its not in the header, the following response will be sent:
+If your JWT was not set correctly or it's not in the header, the following response will be sent:
 
 ![create_wallet_forbidden](./readme_imgs/create_wallet_forbidden.png?raw=true "create_wallet_forbidden")
 
 
+### Check your wallet
 
+Maybe now you want to check if your wallet was really created? Well, just send a GET request to:
+
+```markdown
+    http://localhost:49160/api/wallet/balance
+``` 
+
+![wallet_balance](./readme_imgs/wallet_balance.png?raw=true "wallet_balance")
+
+
+Just remember, keep the JWT string in the header. Otherwise, the following will happen:
+
+![wallet_balance_forbidden](./readme_imgs/wallet_balance_forbidden.png?raw=true "wallet_balance_forbidden")
+
+
+### Add balance for a currency (make a deposit)
+
+Now, the fun part. You can add balance for the currencies the API supports, which at the moment is just BRL. BTC is allowed too, but just for a test purpose, so you can see that the API is ready for distinct currencies. 
 
 [this repo]: https://gist.github.com/caferrari/a25734c6e941f6386e7156aa723f28a8
 [this one]: https://github.com/joaovsa/labcompila_cianeto
