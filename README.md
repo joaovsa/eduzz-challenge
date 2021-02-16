@@ -44,7 +44,49 @@ First, make sure you're connected to the internet and git, npm, docker and Postm
     $ docker run -p 49160:8080 -d <your username>/node-web-app
 ``` 
 ## Calling the API:
+
+For the bellow steps, we will use Postman. But you can use anything that helps you with HTTP calls.
+
+In the example screenshots, I assume that you correctly followed the docker steps above and mapped your 8080 port to 49160.
+
+#### Check the running server
+
 ![get test](./readme_imgs/test_call.png?raw=true "get test")
+
+Make a GET request via Post to the root URL, just do make sure
+
+```markdown
+    http://localhost:49160/
+```
+You should receive the message as the image shows.
+
+#### Sign Up
+
+Before use the application, you must have an user. To do so, make a POST request to 
+
+```markdown
+    http://localhost:49160/api/auth/signup
+``` 
+
+Make sure the body of the request is set to 'JSON'. The JSON you must send should look like this:
+```markdown
+    {
+        "username":"<your-user-name>",
+        "password":"<your-password>",
+        "email":"<your-email>@<your-domain"
+    }
+``` 
+![user_created](./readme_imgs/user_created.png?raw=true "user created")
+
+
+If the desired username or password are already in use, you won't be able to proceed.
+![username_in_use](./readme_imgs/username_in_use.png?raw=true "username_in_use")
+
+
+![email_in_use](./readme_imgs/user_created.png?raw=true "email_in_use")
+
+
+
 
 [this repo]: https://gist.github.com/caferrari/a25734c6e941f6386e7156aa723f28a8
 [this one]: https://github.com/joaovsa/labcompila_cianeto
