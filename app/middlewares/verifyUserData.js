@@ -15,9 +15,11 @@ checkUserData = (req, res, next) => {
 
         if (user) {
             res.status(400).send({message:"User already exists, try again!"});
+            return;
         }
+
+        next();
     });
-    next();
 };
 
 checkUserEmail = (req, res, next) => {
@@ -33,9 +35,11 @@ checkUserEmail = (req, res, next) => {
         if (user) {
             res.status(400).send({message:"E-mail already in use. Have you forgotten your user?"});
             //TODO: send user via e-mail
+            return;
         }
+
+        next();
     });
-    next();
 };
 
 const verifySignUp = {

@@ -57,7 +57,7 @@ require("./app/routes/wallet.routes")(app);
 //run server on localhost
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>{
-    console.log(`>>> Server is running on port ${PORT}.`)
+    console.log(`>>> Server is running.`)
 });
 
 //insert some dummy data
