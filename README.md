@@ -28,11 +28,6 @@ First, make sure you're connected to the internet and git, npm, docker and Postm
     $ cd eduzz-challenge
 ``` 
 
-#### Install NPM Dependencies:
-```markdown
-    $ npm install
-``` 
-
 #### Build the Docker image:
 ```markdown
     $ docker build -t <your username>/node-web-app .
@@ -172,7 +167,7 @@ Aim your POST request to:
     http://localhost:49160/api/wallet/add
 ``` 
 
-You can add any amount you want for the currencies that were added when your created your wallet. Again, the array structure allows you to add various currencies at one time, reducing the need of N API calls for N currencies.
+You can add any amount you want for the currencies that were added when your created your wallet. Again, the array structure allows you to add various currencies at one time, reducing the need of *N* API calls for *N* currencies.
 
 The value you add at balance is not a overwrite. Instead, it adds with the amount that you already have at your wallet. Try it out.
 
@@ -188,17 +183,19 @@ The value you add at balance is not a overwrite. Instead, it adds with the amoun
 
 As soon as you add the balance, the API **will send an e-mail** to the user's e-mail. So, if you don't see at your inbox at first glance, please *check your SPAM box*.
 
-When you add monney to your wallet, the following message is sent:
+When you add money to your wallet, the following message is sent:
 
 ![wallet_add](./readme_imgs/wallet_add.png?raw=true "wallet_add")
 
 
 In the other hand, if yout try to add unsupported currencies, the amount won't be added, you won't receive an e-mail, but the API will warn you:
 
-![wallet_balance_forbidden](./readme_imgs/wallet_balance_forbidden.png?raw=true "wallet_balance_forbidden")
+![currency_not_allowed](./readme_imgs/currency_not_allowed.png?raw=true "currency_not_allowed")
 
 
+### That's it!
 
+I hope that you enjoyed playing around with NodeJS a little bit and had a chance to know a it more about my coding skills. Any doubts, please contact me.
 
 [this repo]: https://gist.github.com/caferrari/a25734c6e941f6386e7156aa723f28a8
 [this one]: https://github.com/joaovsa/labcompila_cianeto
