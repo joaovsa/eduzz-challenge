@@ -5,7 +5,7 @@ The purpose of this code is to create a scenario to show coding abilities, as re
 
 ## About:
 ### The Architecture
-The app was made in NodeJS with Express framework. The database chosen was MongoDB via Atlas, which means is running on the cloud right now to simplify the project structure. In order to reach for MongoDB, the app leans on Mongoose (which is nice since it validates data acconding to the model before actually saving it). 
+The app was made in NodeJS with Express framework. The database chosen was MongoDB via Atlas, which means is running on the cloud right now to simplify the project structure. In order to reach for MongoDB, the app leans on Mongoose (which is nice since it validates data according to the model before actually saving it). 
 
 The app was designed respecting the MVC pattern and correct HTTP methods. You can see some middlewares too as they serve as a way to keep the controllers clean.
 Mocha + Chai were used to test the application, and testdouble to mock DB calls.
@@ -15,8 +15,6 @@ Well, I've never done any NodeJS applicattion, but I think it went neatly. The m
 
 The only test I made is not even correct. I couldn't correctly mock the Mongoose calls inside the controllers. I tried various times, with testdouble and even Sinon/stub... did not work. At firts I thought it was something related to Mongoose's returning Promisses, but it was not.
 Docker was not challengin at all. Since I'm not using swarm, Vagrant or Kubernets, dockerizing the app was easy.
-
-I could not use any of the suggested SMTP servers, they all tried to bill me, or had a great lack of documentation (in particular the MailChimp one).
 
 
 ## Running the application:
@@ -80,10 +78,70 @@ Make sure the body of the request is set to 'JSON'. The JSON you must send shoul
 
 
 If the desired username or password are already in use, you won't be able to proceed.
+
+
 ![username_in_use](./readme_imgs/username_in_use.png?raw=true "username_in_use")
 
-
 ![email_in_use](./readme_imgs/user_created.png?raw=true "email_in_use")
+
+#### Sign In
+
+Now that you've created your user, we can continue. As you signin, you will receive your JWT token, with which you may call other API endpoints.
+Send a POST request, with your username and password to: 
+
+```markdown
+    http://localhost:49160/api/auth/signin
+``` 
+
+![signin](./readme_imgs/signin.png?raw=true "signin")
+
+Make sure your password is correct, otherwise the API won't let you Sign In:
+
+![signin-invalid-pwd](./readme_imgs/signin-invalid-pwd.png?raw=true "signin-invalid-pwd")
+
+
+For now on, we will need the JWT token: copy and paste the 'acessToken' string to the Headers section of Postman, and name the key as 'x-access-token' and paste the value in the corresponding field.
+
+This is the JWT token in action that we are preparing for further API requests. Keep in mind that the token expires after a certain while.
+
+#### Create your wallet
+
+When you created your user, the API did not create the wallet with all the currencies. This behavior is meant to keep the database clean of 'unactivated users'. Of course, this is a future increment of the API, counting on a 'activate your user' e-mail. So as soon as the user had their e-mail confirmed, we would create a wallet. 
+
+As the current implementation goes, you have to create a wallet manually.
+
+Simply make a POST request to
+
+```markdown
+    http://localhost:49160/api/auth/signin
+``` 
+
+And your JSON body should look like this:
+
+```markdown
+   {
+    "username":<your-username>,
+    "currencies":[{
+        "currency":"BRL",
+        "balance": 0.00
+    },
+    {
+        "currency":"BTC",
+        "balance": 0.0000000
+    }]
+}
+``` 
+
+In the currencies array, you can add any currencies you want when you create your wallet. But, at the moment, the API will only accept deposits in BRL. The array struct was made for code reusing purpose. In the future, maybe there will be a necessity of adding USD balance, or even add Cryptocurrencies to your wallet via transference from someone else.
+
+
+![wallet_created](./readme_imgs/wallet_created.png?raw=true "wallet_created")
+
+
+
+If your JWT was not set correctly or its not in the header, the following response will be sent:
+
+![create_wallet_forbidden](./readme_imgs/create_wallet_forbidden.png?raw=true "create_wallet_forbidden")
 
 
 
