@@ -44,6 +44,7 @@ First, make sure you're connected to the internet and git, npm, docker and Postm
     $ docker run -p 49160:8080 -d <your username>/node-web-app
 ``` 
 ## Calling the API:
+![get test](./readme_imgs/test_call.png?raw=true "get test")
 
 [this repo]: https://gist.github.com/caferrari/a25734c6e941f6386e7156aa723f28a8
 [this one]: https://github.com/joaovsa/labcompila_cianeto
