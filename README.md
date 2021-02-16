@@ -83,7 +83,7 @@ If the desired username or password are already in use, you won't be able to pro
 
 ![username_in_use](./readme_imgs/username_in_use.png?raw=true "username_in_use")
 
-![email_in_use](./readme_imgs/user_created.png?raw=true "email_in_use")
+![email_in_use](./readme_imgs/email_in_use.png?raw=true "email_in_use")
 
 ### Sign In
 
@@ -164,6 +164,41 @@ Just remember, keep the JWT string in the header. Otherwise, the following will 
 ### Add balance for a currency (make a deposit)
 
 Now, the fun part. You can add balance for the currencies the API supports, which at the moment is just BRL. BTC is allowed too, but just for a test purpose, so you can see that the API is ready for distinct currencies. 
+
+
+Aim your POST request to:
+
+```markdown
+    http://localhost:49160/api/wallet/add
+``` 
+
+You can add any amount you want for the currencies that were added when your created your wallet. Again, the array structure allows you to add various currencies at one time, reducing the need of N API calls for N currencies.
+
+The value you add at balance is not a overwrite. Instead, it adds with the amount that you already have at your wallet. Try it out.
+
+```markdown
+   {
+    "username":<your-username>,
+    "currencies":[{
+        "currency":"BRL",
+        "balance": 1337
+    }
+}
+``` 
+
+As soon as you add the balance, the API **will send an e-mail** to the user's e-mail. So, if you don't see at your inbox at first glance, please *check your SPAM box*.
+
+When you add monney to your wallet, the following message is sent:
+
+![wallet_add](./readme_imgs/wallet_add.png?raw=true "wallet_add")
+
+
+In the other hand, if yout try to add unsupported currencies, the amount won't be added, you won't receive an e-mail, but the API will warn you:
+
+![wallet_balance_forbidden](./readme_imgs/wallet_balance_forbidden.png?raw=true "wallet_balance_forbidden")
+
+
+
 
 [this repo]: https://gist.github.com/caferrari/a25734c6e941f6386e7156aa723f28a8
 [this one]: https://github.com/joaovsa/labcompila_cianeto
